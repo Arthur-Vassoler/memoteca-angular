@@ -1,0 +1,58 @@
+<section class="container create-thoughts ff-inter">
+  <header class="header">
+    <h2>Adicione um <br>penamento novo:</h2>
+
+    <form>
+      <label for="Penamento">Pensamento</label>
+      <input 
+      type="textarea" 
+      class="input" 
+      id="thought" 
+      name="thought" 
+      placeholder="Digite um penamento"
+      [(ngModel)]="thought.conteudo">
+      
+      <label for="autoria">Autoria ou Fonte</label>
+      <input
+      type="text"
+      class="input"
+      id="thought"
+      name="thought"
+      placeholder="Digite a autoria ou fonte" 
+      [(ngModel)]="thought.autoria">
+    
+      <label for="modelo">Selecione o modelo do card:</label>
+
+      <div class="container-radio">
+        <div *ngFor="let modelo of modelos" class="radio-modelo">
+          <label [for]="modelo.id">
+            <input 
+            type="radio" 
+            name="modelo-card" 
+            [id]="modelo.id" 
+            [value]="modelo.id" 
+            [(ngModel)]="thought.modelo">
+
+            <div class="custom-radio">
+              <span></span>
+            </div>
+            
+            <span>{{ modelo.nome }}</span>
+          </label>
+          
+          Prévia:
+          <div [class]="'modelo ff-roboto-mono ' + modelo.id">
+            <img [src]="modelo.imgSrc" alt="Aspas azuis">
+            
+            <p class="conteudo"><b>{{ thought.conteudo }}</b></p>
+            <p class="autoria"><b>{{ thought.autoria }}</b></p>
+          </div>
+        </div>
+      </div>
+      <div class="acoes">
+        <button (click)="createThoughts()" class="botao">Salvar</button>
+        <button (click)="cancel()" class="botao">Cancelar</button>
+      </div>
+    </form>
+  </header>
+</section>
