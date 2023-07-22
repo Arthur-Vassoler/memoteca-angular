@@ -12,7 +12,8 @@ export class ExcludeThoughtsComponent {
   thoughts: Thought = {
     conteudo: '',
     autoria: '',
-    modelo: ''
+    modelo: '',
+    favorito: false
   }
 
   constructor(

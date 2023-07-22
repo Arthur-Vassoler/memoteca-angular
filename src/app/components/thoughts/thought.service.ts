@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Thought } from './thoughts';
 
@@ -11,8 +11,20 @@ export class ThoughtService {
 
   constructor(private http: HttpClient) { }
 
-  listar(): Observable<Thought[]> {
-    return this.http.get<Thought[]>(this.API)
+  listar(pagina: number, filtro: string, favoritos: boolean): Observable<Thought[]> {
+    const itensPorPagina = 6;
+
+    let params = new HttpParams()
+      .set("_page", pagina)
+      .set("_limit", itensPorPagina)
+
+    if (filtro.trim().length > 2)
+      params = params.set("q", filtro)
+
+    if (favoritos)
+      params = params.set("favorito", true)
+
+    return this.http.get<Thought[]>(this.API, { params})
   }
 
   criar(Thought: Thought): Observable<Thought> {
@@ -35,5 +47,11 @@ export class ThoughtService {
     const url = `${this.API}/${id}`
     
     return this.http.get<Thought>(url)
+  }
+
+  mudarFavorito(thought: Thought): Observable<Thought> {
+    thought.favorito = !thought.favorito
+    
+    return this.editar(thought)
   }
 }
